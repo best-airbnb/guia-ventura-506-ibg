@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><!-- Evita que Google indexe la guía (contiene claves) -->
+<title>Guía del huésped</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232F5D50'/><path d='M16 30 32 17l16 13v17a2 2 0 0 1-2 2H38V37H26v12H18a2 2 0 0 1-2-2z' fill='none' stroke='%23F7F4EF' stroke-width='4' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+/* Si hay un error de escritura en el código, muestra un aviso con la línea en vez de dejar la página en blanco */
+window.addEventListener("error", e => {
+  if (window.__errShown) return; window.__errShown = true;  // muestra solo el primer error
+  const box = document.createElement("div");
+  box.style.cssText = "position:fixed;inset:auto 16px 16px;z-index:99;background:#B3261E;color:#fff;padding:14px 16px;border-radius:12px;font:14px/1.4 system-ui";
+  box.textContent = `⚠️ Error en la línea ${e.lineno}: ${e.message}. Revisa comas, comillas y llaves cerca de esa línea.`;
+  (document.body ? Promise.resolve() : new Promise(r => addEventListener("DOMContentLoaded", r))).then(() => document.body.appendChild(box));
+});
+</script>
+
+<script>
+/* =====================================================================
+   ✏️  CONTENIDO EDITABLE  (bilingüe: español / inglés)
+   - Cada texto traducible tiene la forma:  { es: "Hola", en: "Hello" }
+   - Si un texto es igual en ambos idiomas (nombres, teléfonos, claves),
+     basta con un texto simple: "Ventura Club House"
+   - Si falta la versión "en", se muestra la de español.
+   - Para agregar un elemento a una lista, copia una línea { ... }, y pégala.
+   - Para ocultar una sección completa, deja su lista vacía: []
+   - Iconos disponibles: llave, wifi, reloj, mapa, carro, puerta, ascensor,
+     cocina, lavadora, tv, aire, ducha, cama, basura, silencio, fiesta,
+     fumar, mascota, gimnasio, restaurante, bar, trabajo, persona, comida, cafe, compras, salud, policia,
+     fuego, telefono, estrella, sol, check, piscina, jacuzzi
+   ===================================================================== */
+const CONFIG = {
+  idiomaPorDefecto: "auto", // "es", "en" o "auto" (usa el idioma del teléfono del huésped)
+
+  propiedad: {
+    nombre: "Ventura 1408",
+    subtitulo:  { es: "Tu apartamento en Ibagué", en: "Your apartment in Ibagué" },
+    bienvenida: { es: "¡Hola! Qué alegría recibirte. Aquí encuentras todo lo que necesitas para llegar y disfrutar tu estadía. Si algo no es claro, escríbenos.",
+                  en: "Hi! We're so happy to host you. Here you'll find everything you need to arrive and enjoy your stay. If anything is unclear, just message us." },
+    foto: "" // Opcional: URL de una foto (ej. "https://.../sala.jpg"). Vacío = sin foto.
+  },
+
+  anfitrion: {
+    nombre: { es: "Mapu y Pipe", en: "Mapu & Pipe" },
+    whatsapp: "573004624202",       // Solo números, con indicativo 57
+    telefono: "+57 314 457 4118"
+  },
+
+  horarios: {
+    checkIn:  { es: "3:00 p. m.",  en: "3:00 PM" },
+    checkOut: { es: "11:00 a. m.", en: "11:00 AM" }
+  },
+
+  wifi: { red: "ibagueto1408", clave: "12059093airbnb" },
+
+  acceso: {
+    codigo: "5403",                 // Código de la cerradura
+    apartamento: { es: "Torre 1 · Apto 1408", en: "Tower 1 · Apt 1408" },
+    nota: { es: "En la puerta del apartamento verás colgada una caja de seguridad. Ingresa la clave de arriba para sacar las llaves. Por favor NO compartas esta clave con nadie.",
+            en: "You will find a lockbox hanging on the apartment door. Enter the code provided above to take the keys. Please DON'T share this code with anyone." }
+  },
+
+  llegada: {
+    direccion: { es: "Calle 90 # 4D-15, Ventura Club House, Barrio La Samaria. Ibagué, Tolima", en: "Calle 90 # 4D-15, Ventura Club House, La Samaria Neighborhood. Ibagué, Tolima" }, 
+    mapsUrl: "https://maps.app.goo.gl/vRKiaaZqMJSjxg667",
+    pasos: [
+      { icono: "mapa",
+        titulo: { es: "Llega al conjunto", en: "Arrive to the building" },
+        texto:  { es: "Ingresa por recepción o por la entrada vehicular si vas en carro.", en: "Enter through reception, or use the vehicle entrance if you’re arriving by car." } },
+      { icono: "persona",
+        titulo: { es: "Registro y verificación", en: "Check-in and verification." },
+        texto:  { es: "El vigilante de recepción ya tiene tus datos. Ten a mano tu documento para una rápida verificación.", en: "The front desk security guard already has your details. Please have your ID ready for a quick check." } },
+      { icono: "carro",
+        titulo: { es: "Parqueadero", en: "Parking" },
+        texto:  { es: "El parqueadero no está incluido en la tarifa. Si necesitas uno tiene un costo adicional de $7.000 COP la noche.", en: "Parking is not included in the booking price. If you need a parking space, an additional fee of COP 7,000 per night applies." } },
+      { icono: "ascensor",
+        titulo: { es: "Sube al apartamento", en: "Go up to the apartment" },
+        texto:  { es: "Toma el ascensor de la torre 1 hasta el piso 14. El apartamento estará saliendo del ascensor a tu mano derecha.", en: "Take the elevator in Tower 1 to the 14th floor. The apartment will be on your right as you exit the elevator." } },
+      { icono: "llave",
+        titulo: { es: "Abre la puerta", en: "Open the door" },
+        texto:  { es: "Usa la clave de acceso enviada.", en: "Use the access code provided." } }
+    ]
+  },
+
+  amenidades: [   // Título de la sección: se cambia en UI → casa
+    { icono: "tv",
+      titulo: { es: "TV por cable", en: "Cable TV" },
+      texto:  { es: "Disfruta de canales nacionales e internacionales. Usa el control del decodificador para cambiar de canal.", en: "Enjoy local and international channels. Use the cable box remote to change channels." } },
+    { icono: "trabajo",
+      titulo: { es: "Zona de trabajo", en: "Workspace" },
+      texto:  { es: "Espacio con escritorio y buena conexión Wi-Fi, ideal para trabajar o estudiar.", en: "Desk area with a reliable Wi-Fi connection, perfect for working or studying." } },
+    { icono: "ducha",
+      titulo: { es: "Agua caliente", en: "Hot water" },
+      texto:  { es: "Contamos con duchas eléctricas en cada baño, para agua caliente solo debes abrir la ducha al mínimo y esperar unos segundos.", en: "Each bathroom has an electric shower. For hot water, simply turn the shower on to a low setting and wait a few seconds." } },
+    { icono: "lavadora",
+      titulo: { es: "Lavadora", en: "Washing machine" },
+      texto:  { es: "La encuentras en la zona de ropas junto a la cocina. Detergente no incluido.", en: "You'll find it in the laundry area next to the kitchen. Detergent is not provided." } },
+    { icono: "cama",
+      titulo: { es: "Ropa de cama", en: "Bedding" },
+      texto:  { es: "Cobijas y almohadas adicionales en el clóset de la habitación principal.", en: "Extra blankets and pillows in the master bedroom closet." } }
+  ],
+
+  reglas: [
+    { icono: "persona",  texto: { es: "Máximo 5 huéspedes registrados en la reserva. No se permiten visitas sin aviso previo.", en: "A maximum of 5 guests are allowed per reservation. No visitors without prior notice." } },
+    { icono: "silencio", texto: { es: "Horario de silencio de 8:00 p. m. a 8:00 a. m.", en: "Quiet hours from 8:00 PM to 8:00 AM." } },
+    { icono: "fiesta",   texto: { es: "Fiestas, eventos o ruido excesivo no están permitidos. De presentarse, se solicitará entrega inmediata del apartamento y genera multas económicas por parte del edificio de hasta 10 cuotas de administración que deberá ser asumido por el huésped", en: "Parties, events, and excessive noise are strictly prohibited. If these rules are violated, you will be required to vacate the apartment immediately. The building management may also impose fines of up to 10 monthly building maintenance fees, which must be paid by the guest." } },
+    { icono: "fumar",    texto: { es: "Prohibido fumar dentro del apartamento y en el balcón.", en: "No smoking inside the apartment or on the balcony." } },
+    { icono: "mascota",  texto: { es: "Se admiten mascotas.", en: "Pets allowed." } },
+    { icono: "puerta",   texto: { es: "Cuida el alojamiento como si fuera tu casa. Respeta las normas del conjunto: piscina y zonas comunes según los horarios mencionados.", en: "Please treat the apartment as your own home and take good care of it. Respect the building rules, including the pool and common area schedules mentioned above." } }
+  ],
+
+  checkout: [
+    { es: "Cierra todas las ventanas", en: "Close all windows." },
+    { es: "Lava o deja en el lavaplatos la loza usada",           en: "Wash or leave used dishes in the sink" },
+    { es: "Deja las llaves colgadas en el dinosaurio frente al baño auxiliar.",                      en: "Please hang the keys on the dinosaur-shaped hook across from the guest bathroom." },
+    { es: "Apaga luces, TV y llaves de agua cerradas",                 en: "Please turn off all lights and the TV, and make sure all water taps are turned off." },
+    { es: "Asegúrate de cerrar bien la puerta principal",               en: "Please make sure the main door is securely closed." },
+    { es: "Avísanos por WhatsApp o airbnb que ya saliste",                 en: "Let us know on WhatsApp or airbnb that you've left" }
+  ],
+
+  recomendaciones: [
+    { icono: "comida",  categoria: { es: "Comer", en: "Eat" },     nombre: "Tamal tolimense",
+      nota: { es: "Plato típico de Ibagué, ideal para el desayuno. Dale clic y conoce dónde probarlo", en: "Traditional local dish, great for breakfast. Click here to find out where to try it." }, mapsUrl: "https://maps.app.goo.gl/NbBTLcozNsKxCM426" },
+    { icono: "cafe",    categoria: { es: "Café", en: "Coffee" },   nombre: { es: "Café cerca", en: "Nearby café" },
+      nota: { es: "El mejor café está en Ibagué. Clic para conocer los mejores lugares", en: "The best coffee is in Ibagué. Click here to discover the best places." }, mapsUrl: "https://maps.app.goo.gl/Va2G3sWF5eCHtNn19" },
+    { icono: "compras", categoria: { es: "Mercado", en: "Groceries" }, nombre: { es: "Supermercado", en: "Supermarket" },
+      nota: { es: "Abiertos hasta las 9:00 p. m. Conoce aquí las opciones más cercanas", en: "Open until 9:00 PM. Discover the closest options here." }, mapsUrl: "https://maps.app.goo.gl/ZkhmuxtdsY5A3oNr7" },
+    { icono: "restaurante", categoria: { es: "Restaurantes", en: "Restaurants" }, nombre: { es: "Dónde comer", en: "Where to eat" },
+      nota: { es: "Nuestros restaurantes favoritos cerca del apartamento. Clic aquí para conocerlos", en: "Our favorite restaurants near the apartment. Click here to explore them." }, mapsUrl: "https://maps.app.goo.gl/BQDXzt5hg3e1SCMSA" },
+    { icono: "bar",     categoria: { es: "Bares", en: "Bars" }, nombre: { es: "Para salir de noche", en: "Night out" },
+      nota: { es: "Bares y planes nocturnos en Ibagué. Dale clic y que comience la fiesta!", en: "Bars and nightlife in Ibagué. Click here to get the party started!" }, mapsUrl: "https://maps.google.com/?q=bares+Ibagué" },
+    { icono: "sol",     categoria: { es: "Plan", en: "Places" }, nombre: { es: "¿Qué hacer?", en: "What to do?" },
+      nota: { es: "Ibagué tiene de todo un poco. Descubre lo que debes visitar", en: "Ibagué has a little bit of everything. Discover the must-see places here." }, mapsUrl: "https://maps.app.goo.gl/bdhGQXy9jgJ41Eq67" }
+  ],
+
+  emergencias: [
+    { icono: "telefono", nombre: { es: "Línea de emergencias", en: "Emergency line" },        telefono: "123" },
+    { icono: "salud",    nombre: { es: "Clínica más cercana",  en: "Nearest clinic" },        telefono: "+57 608 277 1186" },
+    { icono: "puerta",   nombre: { es: "Recepción", en: "Front desk" },   telefono: "+57 320 822 7686" }
+  ]
+};
+
+/* Textos fijos de la interfaz (botones, títulos). Normalmente no necesitas tocarlos. */
+const UI = {
+  es: { guia: "Guía del huésped", llegada: "Llegada", wifi: "Wi-Fi", casa: "Amenidades", reglas: "Reglas", salida: "Salida",
+        recomendaciones: "Recomendados", emergencias: "Emergencias", apto: "Apartamento", codigo: "Código de acceso",
+        mostrar: "Mostrar", ocultar: "Ocultar", codigoOculto: "Código oculto", direccion: "Dirección", mapa: "Abrir mapa",
+        red: "Red", clave: "Contraseña", copiar: "Copiar", copiado: "Copiado ✓", copiarRed: "Copiar nombre de la red",
+        copiarError: "Mantén presionado el texto para copiar", antesDe: "Antes de las", marca: "Puedes marcar cada paso:",
+        listo: "¡Todo listo! Buen viaje ✦", anfitriones: "Tus anfitriones", llamar: "Llamar",
+        gracias: "Gracias por cuidar este espacio como si fuera tuyo", waMsg: "Hola, soy huésped de", secciones: "Secciones", idioma: "Idioma" },
+  en: { guia: "Guest guide", llegada: "Arrival", wifi: "Wi-Fi", casa: "Amenities", reglas: "House rules", salida: "Check-out",
+        recomendaciones: "Local picks", emergencias: "Emergencies", apto: "Apartment", codigo: "Access code",
+        mostrar: "Show", ocultar: "Hide", codigoOculto: "Hidden code", direccion: "Address", mapa: "Open map",
+        red: "Network", clave: "Password", copiar: "Copy", copiado: "Copied ✓", copiarRed: "Copy network name",
+        copiarError: "Press and hold the text to copy", antesDe: "Before", marca: "Tick each step:",
+        listo: "All set! Safe travels ✦", anfitriones: "Your hosts", llamar: "Call",
+        gracias: "Thank you for caring for this place as if it were your own", waMsg: "Hi, I'm a guest at", secciones: "Sections", idioma: "Language" }
+};
+</script>
+
+<style>
+  /* ========== 🎨 ESTILO EDITABLE: colores y tipografía ========== */
+  :root {
+    --bg: #F7F4EF;          /* fondo */
+    --surface: #FFFFFF;     /* tarjetas */
+    --ink: #1F1D1A;         /* texto principal */
+    --muted: #6B665E;       /* texto secundario */
+    --line: #E7E1D7;        /* bordes */
+    --accent: #2F5D50;      /* color de marca */
+    --accent-soft: #E4EDE9;
+    --font-title: "Fraunces", Georgia, serif;
+    --font-body: "DM Sans", system-ui, -apple-system, sans-serif;
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151614; --surface: #1F211E; --ink: #F1EEE8; --muted: #A39E95;
+      --line: #2E312C; --accent: #8FC3B1; --accent-soft: #233631;
+    }
+  }
+  /* ================================================================ */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.55; font-size: 16px; padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+  svg.i { width: 20px; height: 20px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  /* Selector de idioma */
+  .hero { position: relative; }
+  .lang { position: absolute; top: 16px; right: 20px; display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+  .lang button { min-width: 44px; min-height: 36px; border: 0; background: none; border-radius: 999px; font: 600 13px var(--font-body); color: var(--muted); cursor: pointer; letter-spacing: .04em; }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+  /* Hero */
+  .hero { padding-top: 48px; padding-bottom: 28px; }
+  .hero-photo { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: var(--radius); margin-bottom: 28px; display: block; }
+  .eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-family: var(--font-title); font-weight: 400; font-size: clamp(34px, 9vw, 48px); line-height: 1.08; margin: 8px 0 14px; letter-spacing: -.01em; }
+  .hero p { color: var(--muted); max-width: 52ch; }
+
+  /* Navegación */
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  nav ul { list-style: none; display: flex; gap: 6px; overflow-x: auto; padding: 12px 20px; max-width: 680px; margin: 0 auto; scrollbar-width: none; }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav a { display: block; white-space: nowrap; text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); padding: 8px 14px; border-radius: 999px; transition: background .2s, color .2s; }
+  nav a.active { background: var(--ink); color: var(--bg); }
+
+  /* Secciones */
+  section { padding: 36px 0 8px; }
+  h2 { font-family: var(--font-title); font-weight: 400; font-size: 26px; margin-bottom: 18px; letter-spacing: -.01em; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .stack > * + * { margin-top: 10px; }
+
+  /* Tarjetas clave (horarios, wifi, acceso) */
+  .keys { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .keys .full { grid-column: 1 / -1; }
+  .label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .label svg.i { width: 16px; height: 16px; }
+  .value { font-size: 20px; font-weight: 600; margin-top: 4px; word-break: break-word; }
+  .value.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .04em; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .row + .row { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: 500 14px var(--font-body); white-space: nowrap; cursor: pointer; text-decoration: none; transition: transform .1s, background .2s; }
+  .btn:active { transform: scale(.97); }
+  .btn.primary { background: var(--accent); color: var(--surface); border-color: transparent; }
+  .btn svg.i { width: 18px; height: 18px; }
+  .hint { font-size: 14px; color: var(--muted); margin-top: 12px; }
+  .masked { filter: blur(7px); user-select: none; transition: filter .25s; }
+
+  /* Pasos */
+  .steps { list-style: none; counter-reset: s; }
+  .steps li { position: relative; display: flex; gap: 16px; padding-bottom: 22px; }
+  .steps li:last-child { padding-bottom: 0; }
+  .steps li:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 44px; bottom: 4px; width: 1px; background: var(--line); }
+  .dot { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex-shrink: 0; }
+  .steps h3, .item h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+  .steps p, .item p { color: var(--muted); font-size: 15px; }
+
+  /* Listas con icono */
+  .item { display: flex; gap: 14px; align-items: flex-start; }
+  .item .dot { width: 36px; height: 36px; }
+  .item .dot svg.i { width: 18px; height: 18px; }
+  .rules .item { align-items: center; }
+  .rules .item p { color: var(--ink); }
+
+  /* Acordeón (La casa) */
+  details { border-bottom: 1px solid var(--line); }
+  details:last-child { border-bottom: 0; }
+  summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 14px 0; font-weight: 500; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  summary .chev { margin-left: auto; color: var(--muted); transition: transform .2s; }
+  details[open] summary .chev { transform: rotate(180deg); }
+  details p { color: var(--muted); font-size: 15px; padding: 0 0 16px 50px; }
+  .card.list { padding: 4px 20px; }
+
+  /* Checklist */
+  .check { display: flex; gap: 12px; align-items: center; padding: 12px 0; cursor: pointer; min-height: 44px; }
+  .check + .check { border-top: 1px solid var(--line); }
+  .check input { appearance: none; width: 22px; height: 22px; border: 1.5px solid var(--muted); border-radius: 7px; flex-shrink: 0; display: grid; place-items: center; cursor: pointer; }
+  .check input:checked { background: var(--accent); border-color: var(--accent); }
+  .check input:checked::after { content: ""; width: 6px; height: 11px; border: solid var(--surface); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); }
+  .check input:checked + span { color: var(--muted); text-decoration: line-through; }
+
+  /* Recomendaciones */
+  .recs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .rec { text-decoration: none; display: flex; flex-direction: column; gap: 6px; transition: border-color .2s; }
+  .rec:hover { border-color: var(--accent); }
+  .rec .tag { font-size: 12px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; display: flex; gap: 6px; align-items: center; }
+  .rec h3 { font-size: 17px; font-weight: 600; }
+  .rec p { font-size: 14px; color: var(--muted); }
+
+  /* Contacto flotante */
+  .fab { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 20; width: min(640px, calc(100% - 32px)); display: flex; gap: 8px; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+  .fab .btn { flex: 0 0 auto; }
+  .fab .btn.primary { flex: 1; }
+  .fab .host { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 10px; min-width: 0; }
+  .fab .host small { font-size: 12px; color: var(--muted); }
+  .fab .host strong { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .toast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px); opacity: 0; background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; z-index: 30; transition: all .25s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 0; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+  @media print { nav, .fab, .toast { display: none; } .masked { filter: none; } body { padding: 0; } }
+</style>
+</head>
+<body>
+
+<header class="wrap hero" id="hero"></header>
+<nav aria-label="Secciones"><ul id="nav"></ul></nav>
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="footer"></footer>
+<div class="fab" id="fab"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============ Iconos (trazos SVG minimalistas) ============ */
+const ICONS = {
+  llave: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2M16 7l3 3M18 5l2 2"/>',
+  wifi: '<path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".8" fill="currentColor"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  mapa: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  carro: '<path d="M5 17h14v-5l-2-5H7l-2 5v5zM5 12h14"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/>',
+  puerta: '<path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18"/><circle cx="15" cy="12" r=".8" fill="currentColor"/>',
+  ascensor: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m9 10 3-3 3 3M9 14l3 3 3-3"/>',
+  cocina: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="2.5"/><circle cx="15.5" cy="10" r="2.5"/><path d="M7 16h10"/>',
+  lavadora: '<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7.5 6.5h.01M10 6.5h.01"/>',
+  tv: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  aire: '<path d="M3 8h12a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/>',
+  ducha: '<path d="M4 20V7a3 3 0 0 1 6 0M7 10h6a3 3 0 0 0-6 0M9 14v.01M12 14v.01M15 14v.01M10 17v.01M14 17v.01"/>',
+  cama: '<path d="M3 18V7M3 13h18v5M21 13a3 3 0 0 0-3-3H10v3"/><circle cx="6.5" cy="10.5" r="1.5"/>',
+  basura: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  silencio: '<path d="M11 5 6 9H3v6h3l5 4V5zM16 9l5 6M21 9l-5 6"/>',
+  fiesta: '<path d="M5.8 11.3 2 22l10.7-3.8M4 3h.01M22 8h.01M15 2h.01M22 20h.01M22 2l-2.2.8a3 3 0 0 0-1.9 3.6v0a3 3 0 0 1-1.9 3.6L14 11M8.7 9.3c1.5 1.4 3.6 3.6 4.5 5.1"/><path d="m3 3 18 18" opacity=".0"/>',
+  fumar: '<path d="M2 16h14v4H2zM20 16v4M17 8a3 3 0 0 0 0-6M20 12a3 3 0 0 0-3-3M2 2l20 20"/>',
+  mascota: '<circle cx="5" cy="10" r="2"/><circle cx="9" cy="5" r="2"/><circle cx="15" cy="5" r="2"/><circle cx="19" cy="10" r="2"/><path d="M12 12c-3 0-5.5 3.5-5.5 6a2.5 2.5 0 0 0 3.5 2.3 5 5 0 0 1 4 0 2.5 2.5 0 0 0 3.5-2.3c0-2.5-2.5-6-5.5-6z"/>',
+  persona: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  comida: '<path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M17 22V2c-2.5 1-4 3.5-4 7v4h4"/>',
+  cafe: '<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8zM17 9h1.5a2.5 2.5 0 0 1 0 5H17M8 2v3M12 2v3"/>',
+  compras: '<path d="M5 7h14l-1 14H6L5 7zM9 7a3 3 0 0 1 6 0"/>',
+  salud: '<path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z"/><path d="M12 10v5M9.5 12.5h5"/>',
+  policia: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3z"/>',
+  fuego: '<path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-5 5-5 8a7 7 0 0 0 7 7z"/>',
+  telefono: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+  estrella: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9L12 3z"/>',
+  sol: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  check: '<path d="m5 12 5 5L20 7"/>',
+  piscina: '<path d="M2 18c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0M8 15V5a2 2 0 0 1 4 0M16 15V5a2 2 0 0 0-4 0M8 9h8M8 12.5h8"/>',
+  jacuzzi: '<path d="M3 12h18v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-3zM7 20l-1 2M17 20l1 2M8 8c0-1.5 1.5-1.5 1.5-3S8 3.5 8 2M12 8c0-1.5 1.5-1.5 1.5-3S12 3.5 12 2M16 8c0-1.5 1.5-1.5 1.5-3S16 3.5 16 2"/>',
+  gimnasio: '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
+  restaurante: '<path d="M3 3v7a3 3 0 0 0 3 3v8M6 3v5M9 3v7a3 3 0 0 1-3 3"/><circle cx="16" cy="12" r="5"/><path d="M16 3v1M16 20v1"/>',
+  bar: '<path d="M5 4h14l-7 8-7-8zM12 12v8M8 20h8M15 7.5l3-3.5"/>',
+  trabajo: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
+  copiar: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  ojo: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  whatsapp: '<path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 7.8 19.6L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/>',
+  chev: '<path d="m6 9 6 6 6-6"/>',
+  externo: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'
+};
+const icon = (n, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ICONS.estrella}</svg>`;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const C = CONFIG;
+
+/* ============ Idioma ============ */
+const pickLang = () => {
+  const q = new URLSearchParams(location.search).get("lang");          // ?lang=en en el enlace
+  if (q === "es" || q === "en") return q;
+  try { const s = localStorage.getItem("guia-lang"); if (s) return s; } catch {}
+  if (C.idiomaPorDefecto === "es" || C.idiomaPorDefecto === "en") return C.idiomaPorDefecto;
+  return (navigator.language || "es").toLowerCase().startsWith("es") ? "es" : "en";
+};
+let lang = pickLang();
+const t = v => (v && typeof v === "object") ? (v[lang] ?? v.es ?? "") : (v ?? "");  // texto bilingüe
+const u = k => UI[lang][k];                                                          // texto de interfaz
+const tx = v => esc(t(v));
+const tel = n => esc(String(n).replace(/\s/g, ""));
+
+/* ============ Render ============ */
+function render() {
+  document.documentElement.lang = lang;
+  document.title = `${u("guia")} · ${t(C.propiedad.nombre)}`;
+
+  document.getElementById("hero").innerHTML = `
+    <div class="lang" role="group" aria-label="${u("idioma")}">
+      <button data-lang="es" aria-pressed="${lang === "es"}">ES</button>
+      <button data-lang="en" aria-pressed="${lang === "en"}">EN</button>
+    </div>
+    ${C.propiedad.foto ? `<img class="hero-photo" src="${esc(C.propiedad.foto)}" alt="${tx(C.propiedad.nombre)}">` : ""}
+    <span class="eyebrow">${tx(C.propiedad.subtitulo)}</span>
+    <h1>${tx(C.propiedad.nombre)}</h1>
+    <p>${tx(C.propiedad.bienvenida)}</p>`;
+
+  const sections = [];
+  // Si una sección tiene un error en el CONFIG, se oculta solo esa y el resto sigue funcionando
+  const add = (id, build, cond = () => true) => {
+    try { if (cond()) sections.push({ id, titulo: u(id), html: build() }); }
+    catch (err) { console.warn(`⚠️ Revisa la sección "${id}" del CONFIG:`, err.message); }
+  };
+  const amenidades = C.amenidades || C.casa || [];
+
+  add("llegada", () => `
+    <div class="keys">
+      <div class="card"><div class="label">${icon("reloj")}Check-in</div><div class="value">${tx(C.horarios.checkIn)}</div></div>
+      <div class="card"><div class="label">${icon("reloj")}Check-out</div><div class="value">${tx(C.horarios.checkOut)}</div></div>
+      <div class="card full">
+        <div class="row">
+          <div><div class="label">${icon("puerta")}${u("apto")}</div><div class="value">${tx(C.acceso.apartamento)}</div></div>
+        </div>
+        <div class="row">
+          <div><div class="label">${icon("llave")}${u("codigo")}</div>
+            <div class="value mono masked" id="code" aria-label="${u("codigoOculto")}">${tx(C.acceso.codigo)}</div></div>
+          <button class="btn" id="reveal" aria-pressed="false">${icon("ojo")}<span>${u("mostrar")}</span></button>
+        </div>
+        ${t(C.acceso.nota) ? `<p class="hint">${tx(C.acceso.nota)}</p>` : ""}
+      </div>
+      <div class="card full">
+        <div class="row">
+          <div style="min-width:0"><div class="label">${icon("mapa")}${u("direccion")}</div><div class="value" style="font-size:17px">${tx(C.llegada.direccion)}</div></div>
+          <a class="btn primary" href="${esc(C.llegada.mapsUrl)}" target="_blank" rel="noopener">${u("mapa")}</a>
+        </div>
+      </div>
+    </div>
+    ${C.llegada.pasos.length ? `
+    <div class="card" style="margin-top:10px">
+      <ol class="steps">${C.llegada.pasos.map(p => `
+        <li><div class="dot">${icon(p.icono)}</div><div><h3>${tx(p.titulo)}</h3><p>${tx(p.texto)}</p></div></li>`).join("")}
+      </ol>
+    </div>` : ""}
+  `);
+
+  add("wifi", () => `
+    <div class="card">
+      <div class="row">
+        <div style="min-width:0"><div class="label">${icon("wifi")}${u("red")}</div><div class="value">${esc(C.wifi.red)}</div></div>
+        <button class="btn" data-copy="${esc(C.wifi.red)}" aria-label="${u("copiarRed")}">${icon("copiar")}</button>
+      </div>
+      <div class="row">
+        <div style="min-width:0"><div class="label">${icon("llave")}${u("clave")}</div><div class="value mono">${esc(C.wifi.clave)}</div></div>
+        <button class="btn primary" data-copy="${esc(C.wifi.clave)}">${icon("copiar")}${u("copiar")}</button>
+      </div>
+    </div>`, () => C.wifi?.red);
+
+  add("casa", () => `
+    <div class="card list">${amenidades.map(c => `
+      <details><summary><span class="dot" style="width:36px;height:36px">${icon(c.icono)}</span>${tx(c.titulo)}${icon("chev", "i chev")}</summary><p>${tx(c.texto)}</p></details>`).join("")}
+    </div>`, () => amenidades.length);
+
+  add("reglas", () => `
+    <div class="card stack rules">${C.reglas.map(r => `
+      <div class="item"><span class="dot">${icon(r.icono)}</span><p>${tx(r.texto)}</p></div>`).join("")}
+    </div>`, () => C.reglas?.length);
+
+  add("salida", () => `
+    <div class="card list" style="padding:8px 20px">
+      <p class="hint" style="margin:8px 0 4px">${u("antesDe")} ${tx(C.horarios.checkOut)}. ${u("marca")}</p>
+      ${C.checkout.map((c, i) => `<label class="check"><input type="checkbox" data-i="${i}"><span>${tx(c)}</span></label>`).join("")}
+    </div>`, () => C.checkout?.length);
+
+  add("recomendaciones", () => `
+    <div class="recs">${C.recomendaciones.map(r => `
+      <a class="card rec" href="${esc(r.mapsUrl)}" target="_blank" rel="noopener">
+        <span class="tag">${icon(r.icono)}${tx(r.categoria)}</span>
+        <h3>${tx(r.nombre)}</h3><p>${tx(r.nota)}</p>
+      </a>`).join("")}
+    </div>`, () => C.recomendaciones?.length);
+
+  add("emergencias", () => `
+    <div class="card stack">${C.emergencias.map(e => `
+      <div class="row" style="margin-top:0;padding-top:0;border:0">
+        <div class="item" style="align-items:center"><span class="dot">${icon(e.icono)}</span><div><h3>${tx(e.nombre)}</h3><p>${esc(e.telefono)}</p></div></div>
+        <a class="btn" href="tel:${tel(e.telefono)}" aria-label="${u("llamar")}: ${tx(e.nombre)}">${icon("telefono")}</a>
+      </div>`).join("")}
+    </div>`, () => C.emergencias?.length);
+
+  document.getElementById("app").innerHTML = sections.map(s =>
+    `<section id="${s.id}" aria-labelledby="h-${s.id}"><h2 id="h-${s.id}">${s.titulo}</h2>${s.html}</section>`).join("");
+  const nav = document.getElementById("nav");
+  nav.parentElement.setAttribute("aria-label", u("secciones"));
+  nav.innerHTML = sections.map(s => `<li><a href="#${s.id}">${s.titulo}</a></li>`).join("");
+  document.getElementById("footer").innerHTML = `${u("gracias")} ✦ ${tx(C.anfitrion.nombre)}`;
+
+  const wa = `https://wa.me/${C.anfitrion.whatsapp}?text=${encodeURIComponent(`${u("waMsg")} ${t(C.propiedad.nombre)}.`)}`;
+  document.getElementById("fab").innerHTML = `
+    <div class="host"><small>${u("anfitriones")}</small><strong>${tx(C.anfitrion.nombre)}</strong></div>
+    <a class="btn primary" href="${wa}" target="_blank" rel="noopener">${icon("whatsapp")}WhatsApp</a>
+    <a class="btn" href="tel:${tel(C.anfitrion.telefono)}" aria-label="${u("llamar")}">${icon("telefono")}</a>`;
+
+  bindChecklist();
+  bindScrollSpy();
+}
+
+/* ============ Interacciones ============ */
+const toast = msg => { const el = document.getElementById("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 1800); };
+
+document.addEventListener("click", async e => {
+  // Cambiar idioma
+  const lb = e.target.closest("[data-lang]");
+  if (lb) {
+    if (lb.dataset.lang === lang) return;
+    lang = lb.dataset.lang;
+    try { localStorage.setItem("guia-lang", lang); } catch {}
+    const y = scrollY; render(); scrollTo(0, y);
+    document.querySelector(`[data-lang="${lang}"]`)?.focus();
+    return;
+  }
+  // Mostrar / ocultar código
+  if (e.target.closest("#reveal")) {
+    const code = document.getElementById("code"), btn = document.getElementById("reveal");
+    const show = code.classList.toggle("masked") === false;
+    btn.setAttribute("aria-pressed", show);
+    btn.querySelector("span").textContent = show ? u("ocultar") : u("mostrar");
+    code.setAttribute("aria-label", show ? `${u("codigo")} ${t(C.acceso.codigo)}` : u("codigoOculto"));
+    return;
+  }
+  // Copiar
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); toast(u("copiado")); }
+  catch { toast(u("copiarError")); }
+});
+
+// Checklist de salida: se recuerda en el teléfono del huésped
+const KEY = "checkout-" + t(C.propiedad.nombre);
+function bindChecklist() {
+  let saved = []; try { saved = JSON.parse(localStorage.getItem(KEY)) || []; } catch {}
+  document.querySelectorAll(".check input").forEach(cb => {
+    cb.checked = saved.includes(+cb.dataset.i);
+    cb.addEventListener("change", () => {
+      const on = [...document.querySelectorAll(".check input:checked")].map(x => +x.dataset.i);
+      try { localStorage.setItem(KEY, JSON.stringify(on)); } catch {}
+      if (on.length === C.checkout.length) toast(u("listo"));
+    });
+  });
+}
+
+// Resalta la sección visible en la navegación
+let spy;
+function bindScrollSpy() {
+  spy?.disconnect();
+  const links = [...document.querySelectorAll("nav a")];
+  spy = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    links.forEach(a => a.classList.toggle("active", a.hash === "#" + en.target.id));
+    const active = document.querySelector("nav a.active");
+    if (active) active.closest("ul").scrollTo({ left: active.offsetLeft - 20, behavior: "smooth" });
+  }), { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("main section").forEach(s => spy.observe(s));
+}
+
+render();
+</script>
+</body>
+</html>
